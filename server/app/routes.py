@@ -14,58 +14,50 @@ GENERATED_FOLDER = os.path.join(os.getcwd(), "generated")
 
 @api.route("/upload", methods=["POST"])
 def upload_and_generate():
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
+    try:
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        os.makedirs(GENERATED_FOLDER, exist_ok=True)
 
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part"}), 400
 
-    # Save uploaded PDF
-    filename = secure_filename(file.filename)
-    unique_id = str(uuid.uuid4())
-    saved_path = os.path.join(UPLOAD_FOLDER, unique_id + "_" + filename)
-    file.save(saved_path)
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
 
-    # Get question parameters
-    mcq = int(request.form.get("mcq") or 0)
-    fillups = int(request.form.get("fillups") or 0)
-    oneword = int(request.form.get("oneword") or 0)
-    short = int(request.form.get("short") or 0)
-    longq = int(request.form.get("longq") or 0)
+        # Save the uploaded file
+        unique_id = str(uuid.uuid4())
+        filename = secure_filename(file.filename)
+        saved_path = os.path.join(UPLOAD_FOLDER, f"{unique_id}_{filename}")
+        file.save(saved_path)
 
-    print("Received inputs:")
-    print("MCQ:", mcq)
-    print("Fillups:", fillups)
-    print("One-word:", oneword)
-    print("Short:", short)
-    print("Long:", longq)
+        # Extract question counts from form
+        mcq = int(request.form.get('mcq', 0))
+        fillups = int(request.form.get('fillups', 0))
+        oneword = int(request.form.get('oneword', 0))
+        short = int(request.form.get('short', 0))
+        longq = int(request.form.get('longq', 0))
 
-    # Extract text from PDF
-    chapter_text = extract_text_from_pdf(saved_path)
+        # Extract text from the uploaded PDF
+        text = extract_text_from_pdf(saved_path)
 
-    # Generate questions using LLM API
-    questions = generate_questions_from_text(
-    chapter_text,
-    mcq=mcq,
-    fillups=fillups,
-    oneword=oneword,
-    short=short,
-    longq=longq
-)
+        # Generate questions
+        questions = generate_questions_from_text(text, mcq, fillups, oneword, short, longq)
 
+        # Create PDF
+        test_pdf_name = f"test_{unique_id}.pdf"
+        test_pdf_path = os.path.join(GENERATED_FOLDER, test_pdf_name)
+        create_test_pdf(questions, test_pdf_path)
 
-    # Generate PDF
-    test_pdf_name = f"test_{unique_id}.pdf"
-    test_pdf_path = os.path.join(GENERATED_FOLDER, test_pdf_name)
-    create_test_pdf(questions, test_pdf_path)
+        return jsonify({
+            "message": "Test paper generated successfully.",
+            "download_url": f"/download/{test_pdf_name}"
+        })
 
-    return jsonify({
-        "message": "Test paper generated successfully.",
-        "download_url": f"/download/{test_pdf_name}"
-    })
+    except Exception as e:
+        print("Exception:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 @api.route("/download/<filename>", methods=["GET"])
 def download_file(filename):
-    print("Attempting to send:", os.path.join(GENERATED_FOLDER, filename))
     return send_from_directory(GENERATED_FOLDER, filename, as_attachment=True)
