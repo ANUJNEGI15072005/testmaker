@@ -9,7 +9,7 @@ def create_app():
     os.makedirs("generated", exist_ok=True)
 
     # Correct way to enable CORS
-    CORS(app, supports_credentials=True, resources={r"/*": {"origins": ["https://testmakerai.vercel.app"]}})
+    CORS(app, origins=["https://testmakerai.vercel.app"], supports_credentials=True)
 
     # Register routes
     from .routes import api
