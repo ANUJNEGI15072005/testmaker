@@ -12,6 +12,12 @@ api = Blueprint("api", __name__)
 UPLOAD_FOLDER = "uploads"
 GENERATED_FOLDER = os.path.join(os.getcwd(), "generated")
 
+def safe_int(value):
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return 0
+
 @api.route("/upload", methods=["POST"])
 def upload_and_generate():
     print("FILES:", request.files)
@@ -34,11 +40,11 @@ def upload_and_generate():
         file.save(saved_path)
 
         # Extract question counts from form
-        mcq = int(request.form.get('mcq', 0))
-        fillups = int(request.form.get('fillups', 0))
-        oneword = int(request.form.get('oneword', 0))
-        short = int(request.form.get('short', 0))
-        longq = int(request.form.get('longq', 0))
+        mcq = safe_int(request.form.get('mcq'))
+        fillups = safe_int(request.form.get('fillups'))
+        oneword = safe_int(request.form.get('oneword'))
+        short = safe_int(request.form.get('short'))
+        longq = safe_int(request.form.get('longq'))
 
         # Extract text from the uploaded PDF
         text = extract_text_from_pdf(saved_path)
