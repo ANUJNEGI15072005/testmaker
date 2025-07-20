@@ -77,7 +77,7 @@ const InputPanel = () => {
         try {
             const res = await fetch(`${apiBase}/upload`, {
                 method: 'POST',
-                body: formData,
+                body: data,
             });
 
             const result = await res.json();
