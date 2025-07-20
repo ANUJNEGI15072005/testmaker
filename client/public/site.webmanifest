@@ -1,0 +1,15 @@
+{
+    "name": "TestMaker AI",
+    "short_name": "TestMaker",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "Your AI Co-Teacher for Test Paper",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        }
+    ]
+}
