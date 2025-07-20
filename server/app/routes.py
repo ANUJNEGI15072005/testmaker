@@ -14,6 +14,8 @@ GENERATED_FOLDER = os.path.join(os.getcwd(), "generated")
 
 @api.route("/upload", methods=["POST"])
 def upload_and_generate():
+    print("FILES:", request.files)
+    print("FORM:", request.form)
     try:
         os.makedirs(UPLOAD_FOLDER, exist_ok=True)
         os.makedirs(GENERATED_FOLDER, exist_ok=True)

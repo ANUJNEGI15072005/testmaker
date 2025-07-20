@@ -65,7 +65,8 @@ const InputPanel = () => {
 
         const data = new FormData();
         data.append("file", file);
-        for (let key in formData) data.append(key, formData[key]);
+        const keys = ['mcq', 'fillups', 'oneword', 'short', 'longq'];
+        keys.forEach(key => data.append(key, formData[key]));
 
         setDownloadLink(''); // Clear previous link
         setLoading(true);
