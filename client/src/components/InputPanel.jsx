@@ -68,22 +68,29 @@ const InputPanel = () => {
         const keys = ['mcq', 'fillups', 'oneword', 'short', 'longq'];
         keys.forEach(key => data.append(key, formData[key]));
 
-        setDownloadLink(''); // Clear previous link
+        setDownloadLink('');
         setLoading(true);
+
         toast.info("Generating test, please wait...", {
             position: "top-center",
             theme: "colored",
-            autoClose: 2500
+            autoClose: 3000
         });
 
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 40000); // 40s timeout
 
         try {
-            const res = await fetch(`${apiBase}/upload`, {
+            const res = await fetch(`${apiBase || ""}/upload`, {
                 method: 'POST',
                 body: data,
+                signal: controller.signal
             });
 
+            clearTimeout(timeout);
+
             const result = await res.json();
+
             if (res.ok && result.download_url) {
                 const fullUrl = new URL(result.download_url, apiBase).toString();
                 setDownloadLink(fullUrl);
@@ -92,17 +99,25 @@ const InputPanel = () => {
                     theme: "colored"
                 });
             } else {
+                console.error("Upload failed:", result);
                 toast.error("Failed to generate test. Try again.", {
                     position: "top-center",
                     theme: "colored"
                 });
             }
         } catch (error) {
-            toast.error("Server error. Please try again.", {
-                position: "top-center",
-                theme: "colored"
-            });
-            console.error(error);
+            console.error("Error:", error);
+            if (error.name === "AbortError") {
+                toast.error("Server is taking too long. Please try again later.", {
+                    position: "top-center",
+                    theme: "colored"
+                });
+            } else {
+                toast.error("Server error. Please try again.", {
+                    position: "top-center",
+                    theme: "colored"
+                });
+            }
         } finally {
             setLoading(false);
         }
