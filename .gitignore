@@ -1,0 +1,29 @@
+# =======================
+# React Frontend (client)
+# =======================
+client/node_modules
+client/.env
+client/.next
+client/.turbo
+client/dist
+client/build
+
+# =======================
+# Python Backend (server)
+# =======================
+server/venv/
+server/app/__pycache__/
+server/.env
+server/*.pyc
+server/*.pyo
+
+# =======================
+# Logs & OS Files
+# =======================
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Optional: VS Code
+.vscode/
