@@ -39,7 +39,7 @@ AI-powered Test Paper Generator – Your AI Co-Teacher for Test Papers.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ANUJNEGI15072005/testmaker
+git clone https://github.com/ANUJNEGI15072005/testmaker.git
 cd testmaker
 
 cd client
