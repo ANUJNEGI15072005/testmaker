@@ -1,10 +1,10 @@
 import os
 import requests
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def generate_questions_from_text(chapter_text, mcq=0, fillups=0, oneword=0, short=0, longq=0):
-    if not OPENROUTER_API_KEY:
+    if not GROQ_API_KEY:
         raise Exception("API key not found in environment variables.")
 
     prompt = f"""
@@ -37,23 +37,19 @@ You are an expert exam question generator trained to identify and create questio
 \"\"\"
 """
 
-
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
     }
 
     payload = {
-        "model": "mistralai/mistral-small-3.2-24b-instruct:free",
+        "model": "llama-3.1-8b-instant",
         "messages": [
-            {
-                "role": "user",
-                "content": prompt
-            }
+            {"role": "user", "content": prompt}
         ]
     }
 
-    url = "https://openrouter.ai/api/v1/chat/completions"
+    url = "https://api.groq.com/openai/v1/chat/completions"
     response = requests.post(url, headers=headers, json=payload)
 
     if response.status_code == 200:

@@ -10,7 +10,6 @@ def create_test_pdf(questions_text, output_path):
     max_width = width - 2 * margin
     line_height = 14
 
-    # Wrap the text based on the width of the page
     lines = simpleSplit(questions_text, 'Helvetica', 12, max_width)
 
     for line in lines:

@@ -37,29 +37,3 @@ const Hero = () => {
 
 export default Hero;
 
-
-{/* <section className="text-white mt-10 flex flex-wrap md:flex-nowrap justify-between px-5 md:px-10 gap-10">
-    <div className="md:w-1/2 w-full">
-        <div className="pt-10">
-            <span className="text-[25px] px-5 font-poppins rounded-lg bg-gradient-to-bl from-blue-950 to-black inline-block">
-                AI-powered <span className="text-gray-400">Test Paper </span>Generator
-            </span>
-        </div>
-        <div className="pt-5">
-            <p className="px-5 leading-snug font-poppins font-semibold">
-                <span className="text-[64px]">Your </span>
-                <span className="bg-gradient-to-tr from-blue-600 to-white bg-clip-text text-transparent text-[60px] font-poppins font-semibold">AI </span>
-                <br />
-                <span className="text-[64px]">Co-Teacher </span>
-                <br />
-                <span className="text-[72px]">for </span>
-                <span className="bg-gradient-to-tr from-blue-600 to-white text-[72px] bg-clip-text text-transparent font-poppins font-semibold">Test Papers.</span>
-            </p>
-        </div>
-    </div>
-    <div className="md:w-1/2 w-full flex items-center justify-center">
-        <p className="text-lg md:text-3xl font-poppins text-gray-300 leading-relaxed">
-            Create fully customized test papers in just a few clicks with AI-powered intelligence. From multiple-choice to short and long answers, generate questions tailored to any subject or grade level. Designed for educators, students, and institutions who value speed, accuracy, and smart automation. Let your AI co-teacher handle the heavy lifting while you focus on what truly matters — teaching and learning.
-        </p>
-    </div>
-</section> */}

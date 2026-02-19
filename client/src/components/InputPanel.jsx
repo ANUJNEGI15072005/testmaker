@@ -78,7 +78,7 @@ const InputPanel = () => {
         });
 
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 40000); // 40s timeout
+        const timeout = setTimeout(() => controller.abort(), 40000); 
 
         try {
             const res = await fetch(`${apiBase || ""}/upload`, {

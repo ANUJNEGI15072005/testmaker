@@ -33,26 +33,21 @@ def upload_and_generate():
         if file.filename == '':
             return jsonify({"error": "No selected file"}), 400
 
-        # Save the uploaded file
         unique_id = str(uuid.uuid4())
         filename = secure_filename(file.filename)
         saved_path = os.path.join(UPLOAD_FOLDER, f"{unique_id}_{filename}")
         file.save(saved_path)
 
-        # Extract question counts from form
         mcq = safe_int(request.form.get('mcq'))
         fillups = safe_int(request.form.get('fillups'))
         oneword = safe_int(request.form.get('oneword'))
         short = safe_int(request.form.get('short'))
         longq = safe_int(request.form.get('longq'))
 
-        # Extract text from the uploaded PDF
         text = extract_text_from_pdf(saved_path)
 
-        # Generate questions
         questions = generate_questions_from_text(text, mcq, fillups, oneword, short, longq)
 
-        # Create PDF
         test_pdf_name = f"test_{unique_id}.pdf"
         test_pdf_path = os.path.join(GENERATED_FOLDER, test_pdf_name)
         create_test_pdf(questions, test_pdf_path)
