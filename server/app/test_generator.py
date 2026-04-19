@@ -10,6 +10,8 @@ def generate_questions_from_text(chapter_text, mcq=0, fillups=0, oneword=0, shor
     prompt = f"""
 You are an expert exam question generator trained to identify and create questions that are **most likely to be asked in real exams**, based strictly on the chapter text provided.
 
+Your task is to generate ONLY QUESTIONS from the given chapter text.
+
 🛑 Very Important Instructions:
 1. ONLY use the provided content. Do NOT invent or guess.
 2. Select questions based on importance, frequency in typical exams, and conceptual value.

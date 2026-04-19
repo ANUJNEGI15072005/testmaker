@@ -187,7 +187,7 @@ const InputPanel = () => {
                             type="submit"
                             disabled={loading}
                             className={`text-lg font-poppins px-6 py-2 rounded-md transition text-white 
-      ${loading
+                                ${loading
                                     ? "bg-gray-400 cursor-not-allowed opacity-50"
                                     : "bg-blue-600 hover:bg-blue-700"
                                 }`}
